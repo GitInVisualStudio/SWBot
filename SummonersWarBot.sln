@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SummonersWarBot", "SummonersWarBot\SummonersWarBot.csproj", "{0E3E1C9D-D32C-42CE-BB2C-7978D907FDA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E3E1C9D-D32C-42CE-BB2C-7978D907FDA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E3E1C9D-D32C-42CE-BB2C-7978D907FDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E3E1C9D-D32C-42CE-BB2C-7978D907FDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E3E1C9D-D32C-42CE-BB2C-7978D907FDA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2BBA754-A146-47C9-90A5-418EAB31F60D}
+	EndGlobalSection
+EndGlobal
