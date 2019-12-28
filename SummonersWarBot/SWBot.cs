@@ -16,11 +16,11 @@ namespace SummonersWarBot
     {
         private Process sw;
         private Rect prevRect;
-        private Size size;
-        private Point location;
+        private Size size, offsetSize;
+        private Point location, offsetLocation;
         private Timer timer;
-        private int RPS = 1; //refreshs per second 
         private bool running;
+        private Overlay overlay;
 
         public SWBot()
         {
@@ -30,7 +30,7 @@ namespace SummonersWarBot
 
             timer = new Timer()
             {
-                Interval = (int)(1000 / (float)RPS)
+                Interval = 1000
             };
 
             timer.Tick += OnRefresh;
@@ -39,10 +39,13 @@ namespace SummonersWarBot
 
         private void FindProcess()
         {
-            sw = Process.GetProcessesByName("Bluestacks").FirstOrDefault();
+            while((sw = Process.GetProcessesByName("Bluestacks").FirstOrDefault()) == null)
+                System.Threading.Thread.Sleep(100);
             if (sw == null)
                 Environment.Exit(0);
             RefreshWindow();
+            overlay = new Overlay(sw);
+            overlay.Show();
         }
 
         private void OnRefresh(object sender, EventArgs e)
@@ -123,6 +126,28 @@ namespace SummonersWarBot
             btnStart.Text = running ? "Start" : "Stop";
             running = !running;
             statusBot.Text = running ? "running" : "idle";
+        }
+
+        private void rpsChanged(object sender, EventArgs e)
+        {
+            timer.Interval = (int)(1000 / (float)rps.Value);
+        }
+
+        private void checkBoxShow_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxShow.Checked)
+                overlay.Show();
+            else
+                new System.Threading.Thread(overlay.Close).Start();
+            
+        }
+
+        private void offsetChanged(object sender, EventArgs e)
+        {
+            offsetLocation = new Point((int)offsetLeft.Value, (int)offsetTop.Value);
+            offsetSize = new Size((int)offsetRight.Value, (int)offsetBottom.Value);
+            overlay.SizeOffset = offsetSize;
+            overlay.LocationOffset = offsetLocation;
         }
     }
 }
