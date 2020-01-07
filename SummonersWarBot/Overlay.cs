@@ -43,8 +43,8 @@ namespace SummonersWarBot
                 FPS = 5,
                 X = 0,
                 Y = 0,
-                Width = 800,
-                Height = 600
+                Width = 50,
+                Height = 50
             };
 
             _window.SetupGraphics += _window_SetupGraphics;

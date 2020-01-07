@@ -58,9 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
+    <Compile Include="Bot\Bot.cs" />
     <Compile Include="BitmapUtils.cs" />
+    <Compile Include="Bot\Bots\LevelBot.cs" />
     <Compile Include="Overlay.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SWBot.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,13 +77,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="SWBot.resx">
       <DependentUpon>SWBot.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,6 +96,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\victory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\replay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rune1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rune2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rune3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rune4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rune5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rune6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runeToken.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

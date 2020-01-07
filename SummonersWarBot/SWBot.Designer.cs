@@ -239,7 +239,7 @@
             this.rps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rps.Location = new System.Drawing.Point(646, 311);
             this.rps.Maximum = new decimal(new int[] {
-            15,
+            30,
             0,
             0,
             0});

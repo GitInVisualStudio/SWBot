@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SummonersWarBot.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using b = SummonersWarBot.Bot;
 
 namespace SummonersWarBot
 {
@@ -21,6 +23,7 @@ namespace SummonersWarBot
         private Timer timer;
         private bool running;
         private Overlay overlay;
+        private b::Bot bot;
 
         public SWBot()
         {
@@ -32,15 +35,22 @@ namespace SummonersWarBot
             {
                 Interval = 1000
             };
-
+            DoubleBuffered = true;
             timer.Tick += OnRefresh;
             timer.Start();
+            bot = new b::Bots.LevelBot();
         }
 
         private void FindProcess()
         {
-            while((sw = Process.GetProcessesByName("Bluestacks").FirstOrDefault()) == null)
+            while (sw == null)
+            {
+                Process[] processes = Process.GetProcessesByName("Bluestacks");
+                foreach (Process p in processes)
+                    if ((int)p.MainWindowHandle != 0)
+                        sw = p;
                 System.Threading.Thread.Sleep(100);
+            }
             if (sw == null)
                 Environment.Exit(0);
             RefreshWindow();
@@ -58,23 +68,67 @@ namespace SummonersWarBot
             }
             else
                 status.Text = "opend";
-
             if (rect != prevRect)
                 RefreshWindow();
             if (running)
                 Tick();
+            //this.Refresh();
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            //if (!running)
+            //    return;
+            //Bitmap screen = GetScreen();
+            //Bitmap runArea = BitmapUtils.GetBitmap(screen, 1016 - 100, 289, Resources.rune1.Width + 280, Resources.rune1.Height);
+            //runArea = BitmapUtils.RemoveColor(runArea, Color.FromArgb(37, 24, 15), Color.Black, 130);
+            //int width = 0;
+            //for (int i = runArea.Width - 1; i >= 0; i--)
+            //{
+            //    if (BitmapUtils.IsColor(runArea.GetPixel(i, runArea.Height / 2), Color.FromArgb(255, 0, 0, 0), 20))
+            //    {
+            //        width = i;
+            //        break;
+            //    }
+            //}
+            //Bitmap token = BitmapUtils.GetBitmap(runArea, width - Resources.rune1.Width + 3, 0, Resources.rune1.Width, Resources.rune1.Height);
+            //int index = 0;
+            //float max = 0;
+            //for (int i = 0; i < runes.Length; i++)
+            //{
+            //    float current = BitmapUtils.GetBitmapEquals(token, runes[i], 0, 0);
+            //    if (current > max)
+            //    {
+            //        max = current;
+            //        index = i;
+            //    }
+            //}
+            //e.Graphics.DrawString("Current slot:" + (index + 1), new Font("Arial", 12), Brushes.Black, 0, 0);
+            //e.Graphics.DrawString("Sure with about:" + ((int)max) + "%", new Font("Arial", 12), Brushes.Black, 0, 15);
+            //e.Graphics.DrawImage(Resources.runeToken, width, 0);
+            //e.Graphics.DrawImage(runArea, 0, 0);
+        }
+
+        private Bitmap[] runes = new Bitmap[] { BitmapUtils.ScaleBitmap(Resources.rune1, 0.9f),
+            BitmapUtils.ScaleBitmap(Resources.rune2, 0.9f),
+        BitmapUtils.ScaleBitmap(Resources.rune3, 0.9f),
+        BitmapUtils.ScaleBitmap(Resources.rune4, 0.9f),
+        BitmapUtils.ScaleBitmap(Resources.rune5, 0.9f),
+        BitmapUtils.ScaleBitmap(Resources.rune6, 0.9f)};
 
         private void Tick()
         {
             Bitmap screen = GetScreen();
+            bot?.OnTick(screen);
         }
 
         private Bitmap GetScreen()
         {
-            Bitmap bitmap = new Bitmap(size.Width, size.Height);
+            Bitmap bitmap = new Bitmap(size.Width - offsetSize.Width - offsetLocation.X, size.Height - offsetSize.Height - offsetLocation.Y);
             Graphics g = Graphics.FromImage(bitmap);
-            g.CopyFromScreen(location.X, location.Y, 0, 0, size);
+            g.CopyFromScreen(location.X + offsetLocation.X, location.Y + offsetLocation.Y, 0, 0, size);
+            g.Dispose();
             return bitmap;
         }
 
