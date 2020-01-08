@@ -1,4 +1,5 @@
-﻿using SummonersWarBot.Properties;
+﻿using Microsoft.Win32;
+using SummonersWarBot.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,17 +29,42 @@ namespace SummonersWarBot
         public SWBot()
         {
             InitializeComponent();
+
+            boxEnergy.Items.Add(b::Bot.EnergyUsage.WAIT);
+            boxEnergy.Items.Add(b::Bot.EnergyUsage.BUY);
+            boxEnergy.Items.Add(b::Bot.EnergyUsage.GIFTBOX);
+            boxEnergy.Items.Add(b::Bot.EnergyUsage.BOTH);
+            boxEnergy.SelectedItem = b::Bot.EnergyUsage.WAIT;
+
             //new Thread to handle the process finding asyn
             new System.Threading.Thread(FindProcess).Start();
+            new System.Threading.Thread(HandleTelegramBot).Start();
 
             timer = new Timer()
             {
                 Interval = 1000
             };
+
             DoubleBuffered = true;
             timer.Tick += OnRefresh;
             timer.Start();
-            bot = new b::Bots.LevelBot();
+            lblLinkId.Text = "LinkId: " + GetHwid();
+            b::TelegramBot.ReadUser();
+            FormClosed += FornClosed;
+        }
+
+        private void FornClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(-1);
+        }
+
+        private void HandleTelegramBot()
+        {
+            while (true)
+            {
+                b::TelegramBot.Update().Wait();
+                System.Threading.Thread.Sleep(300);
+            }
         }
 
         private void FindProcess()
@@ -78,8 +104,8 @@ namespace SummonersWarBot
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            //if (!running)
-            //    return;
+            if (!running)
+                return;
             //Bitmap screen = GetScreen();
             //Bitmap runArea = BitmapUtils.GetBitmap(screen, 1016 - 100, 289, Resources.rune1.Width + 280, Resources.rune1.Height);
             //runArea = BitmapUtils.RemoveColor(runArea, Color.FromArgb(37, 24, 15), Color.Black, 130);
@@ -106,8 +132,8 @@ namespace SummonersWarBot
             //}
             //e.Graphics.DrawString("Current slot:" + (index + 1), new Font("Arial", 12), Brushes.Black, 0, 0);
             //e.Graphics.DrawString("Sure with about:" + ((int)max) + "%", new Font("Arial", 12), Brushes.Black, 0, 15);
-            //e.Graphics.DrawImage(Resources.runeToken, width, 0);
-            //e.Graphics.DrawImage(runArea, 0, 0);
+            //e.Graphics.DrawImage(Resources.runeToken, width, 100);
+            //e.Graphics.DrawImage(runArea, 0, 100);
         }
 
         private Bitmap[] runes = new Bitmap[] { BitmapUtils.ScaleBitmap(Resources.rune1, 0.9f),
@@ -121,6 +147,8 @@ namespace SummonersWarBot
         {
             Bitmap screen = GetScreen();
             bot?.OnTick(screen);
+            if (bot.Finished)
+                statusBot.Text = "Finished";
         }
 
         private Bitmap GetScreen()
@@ -179,6 +207,10 @@ namespace SummonersWarBot
         {
             btnStart.Text = running ? "Start" : "Stop";
             running = !running;
+            if (running)
+            {
+                bot = new b::Bots.LevelBot((b::Bot.EnergyUsage)boxEnergy.SelectedItem, (int)numRuns.Value);
+            }
             statusBot.Text = running ? "running" : "idle";
         }
 
@@ -202,6 +234,29 @@ namespace SummonersWarBot
             offsetSize = new Size((int)offsetRight.Value, (int)offsetBottom.Value);
             overlay.SizeOffset = offsetSize;
             overlay.LocationOffset = offsetLocation;
+        }
+
+        public static string GetHwid()
+        {
+            string location = @"SOFTWARE\Microsoft\Cryptography";
+            string name = "MachineGuid";
+
+            using (RegistryKey localMachineX64View = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+            {
+                using (RegistryKey rk = localMachineX64View.OpenSubKey(location))
+                {
+                    if (rk == null)
+                        throw new KeyNotFoundException(
+                            string.Format("Key Not Found: {0}", location));
+
+                    object machineGuid = rk.GetValue(name);
+                    if (machineGuid == null)
+                        throw new IndexOutOfRangeException(
+                            string.Format("Index Not Found: {0}", name));
+
+                    return machineGuid.ToString().ToUpper().Substring(0, 4);
+                }
+            }
         }
     }
 }
