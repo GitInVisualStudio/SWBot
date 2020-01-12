@@ -73,6 +73,16 @@ namespace SummonersWarBot.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap levelUp {
+            get {
+                object obj = ResourceManager.GetObject("levelUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap replay {
             get {
                 object obj = ResourceManager.GetObject("replay", resourceCulture);

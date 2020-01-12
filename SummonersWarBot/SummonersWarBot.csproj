@@ -71,6 +71,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Rune\EnumSub.cs" />
+    <Compile Include="Rune\RuneHelper.cs" />
     <Compile Include="SWBot.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\replay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\levelUp.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

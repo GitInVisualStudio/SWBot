@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using SummonersWarBot.Properties;
+using SummonersWarBot.Rune;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +37,10 @@ namespace SummonersWarBot
             boxEnergy.Items.Add(b::Bot.EnergyUsage.BOTH);
             boxEnergy.SelectedItem = b::Bot.EnergyUsage.WAIT;
 
+            boxMode.Items.Add("Farm");
+            boxMode.Items.Add("Lvln");
+            boxMode.SelectedIndex = 0;
+
             //new Thread to handle the process finding asyn
             new System.Threading.Thread(FindProcess).Start();
             new System.Threading.Thread(HandleTelegramBot).Start();
@@ -55,7 +60,13 @@ namespace SummonersWarBot
 
         private void FornClosed(object sender, FormClosedEventArgs e)
         {
-            Environment.Exit(-1);
+            try
+            {
+                Environment.Exit(-1);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void HandleTelegramBot()
@@ -63,7 +74,7 @@ namespace SummonersWarBot
             while (true)
             {
                 b::TelegramBot.Update().Wait();
-                System.Threading.Thread.Sleep(300);
+                System.Threading.Thread.Sleep(500);
             }
         }
 
@@ -107,41 +118,15 @@ namespace SummonersWarBot
             if (!running)
                 return;
             //Bitmap screen = GetScreen();
-            //Bitmap runArea = BitmapUtils.GetBitmap(screen, 1016 - 100, 289, Resources.rune1.Width + 280, Resources.rune1.Height);
-            //runArea = BitmapUtils.RemoveColor(runArea, Color.FromArgb(37, 24, 15), Color.Black, 130);
-            //int width = 0;
-            //for (int i = runArea.Width - 1; i >= 0; i--)
-            //{
-            //    if (BitmapUtils.IsColor(runArea.GetPixel(i, runArea.Height / 2), Color.FromArgb(255, 0, 0, 0), 20))
-            //    {
-            //        width = i;
-            //        break;
-            //    }
-            //}
-            //Bitmap token = BitmapUtils.GetBitmap(runArea, width - Resources.rune1.Width + 3, 0, Resources.rune1.Width, Resources.rune1.Height);
-            //int index = 0;
-            //float max = 0;
-            //for (int i = 0; i < runes.Length; i++)
-            //{
-            //    float current = BitmapUtils.GetBitmapEquals(token, runes[i], 0, 0);
-            //    if (current > max)
-            //    {
-            //        max = current;
-            //        index = i;
-            //    }
-            //}
-            //e.Graphics.DrawString("Current slot:" + (index + 1), new Font("Arial", 12), Brushes.Black, 0, 0);
-            //e.Graphics.DrawString("Sure with about:" + ((int)max) + "%", new Font("Arial", 12), Brushes.Black, 0, 15);
-            //e.Graphics.DrawImage(Resources.runeToken, width, 100);
-            //e.Graphics.DrawImage(runArea, 0, 100);
+            ////e.Graphics.DrawString("Current slot:" + RuneHelper.GetSlot(screen, 381, 71), new Font("Arial", 12), Brushes.Black, 0, 0);
+            ////RuneHelper.GetSubs(screen, 70, 260);
+            //int x = 70;
+            //int y = 260;
+            //List<EnumSub> subs = new List<EnumSub>();
+            //Bitmap tokenSubs = BitmapUtils.GetBitmap(screen, x, y, 170, 200);
+            //tokenSubs = BitmapUtils.RemoveColor(tokenSubs, Color.FromArgb(37, 24, 15), Color.Black, 80);
+            //e.Graphics.DrawImage(tokenSubs, 0, 0);
         }
-
-        private Bitmap[] runes = new Bitmap[] { BitmapUtils.ScaleBitmap(Resources.rune1, 0.9f),
-            BitmapUtils.ScaleBitmap(Resources.rune2, 0.9f),
-        BitmapUtils.ScaleBitmap(Resources.rune3, 0.9f),
-        BitmapUtils.ScaleBitmap(Resources.rune4, 0.9f),
-        BitmapUtils.ScaleBitmap(Resources.rune5, 0.9f),
-        BitmapUtils.ScaleBitmap(Resources.rune6, 0.9f)};
 
         private void Tick()
         {
@@ -149,6 +134,7 @@ namespace SummonersWarBot
             bot?.OnTick(screen);
             if (bot.Finished)
                 statusBot.Text = "Finished";
+            screen.Dispose();
         }
 
         private Bitmap GetScreen()
@@ -209,7 +195,7 @@ namespace SummonersWarBot
             running = !running;
             if (running)
             {
-                bot = new b::Bots.LevelBot((b::Bot.EnergyUsage)boxEnergy.SelectedItem, (int)numRuns.Value);
+                bot = new b::Bots.LevelBot((b::Bot.EnergyUsage)boxEnergy.SelectedItem, boxMode.SelectedIndex, (int)numRuns.Value);
             }
             statusBot.Text = running ? "running" : "idle";
         }

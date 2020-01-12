@@ -50,6 +50,8 @@
             this.numRuns = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.lblLinkId = new System.Windows.Forms.Label();
+            this.boxMode = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.offsetTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.offsetLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.offsetRight)).BeginInit();
@@ -114,7 +116,7 @@
             // 
             this.lblScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblScreen.AutoSize = true;
-            this.lblScreen.Location = new System.Drawing.Point(610, 216);
+            this.lblScreen.Location = new System.Drawing.Point(610, 245);
             this.lblScreen.Name = "lblScreen";
             this.lblScreen.Size = new System.Drawing.Size(78, 13);
             this.lblScreen.TabIndex = 5;
@@ -126,7 +128,7 @@
             this.checkBoxShow.AutoSize = true;
             this.checkBoxShow.Checked = true;
             this.checkBoxShow.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShow.Location = new System.Drawing.Point(613, 232);
+            this.checkBoxShow.Location = new System.Drawing.Point(613, 261);
             this.checkBoxShow.Name = "checkBoxShow";
             this.checkBoxShow.Size = new System.Drawing.Size(53, 17);
             this.checkBoxShow.TabIndex = 6;
@@ -137,7 +139,7 @@
             // offsetTop
             // 
             this.offsetTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.offsetTop.Location = new System.Drawing.Point(613, 268);
+            this.offsetTop.Location = new System.Drawing.Point(613, 297);
             this.offsetTop.Maximum = new decimal(new int[] {
             300,
             0,
@@ -152,7 +154,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(610, 252);
+            this.label1.Location = new System.Drawing.Point(610, 281);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 8;
@@ -162,7 +164,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(610, 291);
+            this.label2.Location = new System.Drawing.Point(610, 320);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 10;
@@ -171,7 +173,7 @@
             // offsetLeft
             // 
             this.offsetLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.offsetLeft.Location = new System.Drawing.Point(613, 307);
+            this.offsetLeft.Location = new System.Drawing.Point(613, 336);
             this.offsetLeft.Maximum = new decimal(new int[] {
             300,
             0,
@@ -186,7 +188,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(610, 369);
+            this.label3.Location = new System.Drawing.Point(610, 398);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 14;
@@ -195,7 +197,7 @@
             // offsetRight
             // 
             this.offsetRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.offsetRight.Location = new System.Drawing.Point(613, 385);
+            this.offsetRight.Location = new System.Drawing.Point(613, 414);
             this.offsetRight.Maximum = new decimal(new int[] {
             300,
             0,
@@ -210,7 +212,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(610, 330);
+            this.label4.Location = new System.Drawing.Point(610, 359);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 13);
             this.label4.TabIndex = 12;
@@ -219,7 +221,7 @@
             // offsetBottom
             // 
             this.offsetBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.offsetBottom.Location = new System.Drawing.Point(613, 346);
+            this.offsetBottom.Location = new System.Drawing.Point(613, 375);
             this.offsetBottom.Maximum = new decimal(new int[] {
             300,
             0,
@@ -234,7 +236,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(610, 408);
+            this.label6.Location = new System.Drawing.Point(610, 437);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(105, 13);
             this.label6.TabIndex = 17;
@@ -243,7 +245,7 @@
             // rps
             // 
             this.rps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.rps.Location = new System.Drawing.Point(613, 424);
+            this.rps.Location = new System.Drawing.Point(613, 453);
             this.rps.Maximum = new decimal(new int[] {
             30,
             0,
@@ -285,14 +287,14 @@
             // 
             // numRuns
             // 
-            this.numRuns.Location = new System.Drawing.Point(613, 155);
+            this.numRuns.Location = new System.Drawing.Point(614, 147);
             this.numRuns.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numRuns.Name = "numRuns";
-            this.numRuns.Size = new System.Drawing.Size(120, 20);
+            this.numRuns.Size = new System.Drawing.Size(111, 20);
             this.numRuns.TabIndex = 20;
             this.numRuns.Value = new decimal(new int[] {
             1,
@@ -304,26 +306,46 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(611, 139);
+            this.label7.Location = new System.Drawing.Point(612, 131);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 13);
             this.label7.TabIndex = 21;
             this.label7.Text = "Runs";
             // 
-            // lblSession
+            // lblLinkId
             // 
             this.lblLinkId.AutoSize = true;
-            this.lblLinkId.Location = new System.Drawing.Point(611, 191);
-            this.lblLinkId.Name = "lblSession";
+            this.lblLinkId.Location = new System.Drawing.Point(612, 221);
+            this.lblLinkId.Name = "lblLinkId";
             this.lblLinkId.Size = new System.Drawing.Size(35, 13);
             this.lblLinkId.TabIndex = 22;
             this.lblLinkId.Text = "label8";
+            // 
+            // boxMode
+            // 
+            this.boxMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxMode.FormattingEnabled = true;
+            this.boxMode.Location = new System.Drawing.Point(613, 186);
+            this.boxMode.Name = "boxMode";
+            this.boxMode.Size = new System.Drawing.Size(112, 21);
+            this.boxMode.TabIndex = 23;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(612, 170);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(37, 13);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "Mode:";
             // 
             // SWBot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 453);
+            this.ClientSize = new System.Drawing.Size(732, 482);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.boxMode);
             this.Controls.Add(this.lblLinkId);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.numRuns);
@@ -383,6 +405,8 @@
         private System.Windows.Forms.NumericUpDown numRuns;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblLinkId;
+        private System.Windows.Forms.ComboBox boxMode;
+        private System.Windows.Forms.Label label8;
     }
 }
 

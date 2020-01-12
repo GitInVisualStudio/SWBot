@@ -25,19 +25,19 @@ namespace SummonersWarBot.Bot
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/link.dat"))
                 return;
             user = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/link.dat");
-            nextMessage = "Automatically linked!";
         }
 
         public static async Task Update()
         {
             JObject json = await ApiGetRequest("getUpdates?offset=" + (lastUpdate + 1));
 
-            if(nextMessage != null)
+            if (nextMessage != null)
             {
-                if (user == null || nextMessage == null || nextMessage == "" || user == "")
-                    return;
-                await SendMessage(nextMessage, user);
-                nextMessage = null;
+                if (user != null && nextMessage != null && nextMessage != "" && user != "")
+                {
+                    await SendMessage(nextMessage, user);
+                    nextMessage = null;
+                }
             }
 
             foreach (JToken update in json["result"])

@@ -183,12 +183,7 @@ namespace SummonersWarBot
 
         public static Bitmap ScaleBitmap(Bitmap bitmap, float scale)
         {
-            Bitmap newBitmap = new Bitmap((int)(bitmap.Width * scale), (int)(bitmap.Height * scale));
-            Graphics g = Graphics.FromImage(newBitmap);
-            g.ScaleTransform(scale, scale);
-            g.DrawImage(bitmap, 0, 0);
-            g.Dispose();
-            return newBitmap;
+            return new Bitmap(bitmap, (int)(bitmap.Width * scale), (int)(bitmap.Height * scale));
         }
     }
 }

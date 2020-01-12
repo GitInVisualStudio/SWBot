@@ -55,9 +55,11 @@ namespace SummonersWarBot.Bot
                 if (BitmapUtils.BitmapEquals2(screen, Resources.button, 1376, 688, 5))//TODO: Create relative locations
                 {
                     if (!started)
+                    {
                         OnPrepare?.Invoke(this, screen);
-                    started = false;
-                    Runs--;
+                        started = false;
+                        Runs--;
+                    }
                     if (Runs > 0)
                         Click(1376, 688);
                     else
@@ -71,14 +73,31 @@ namespace SummonersWarBot.Bot
 
             AddListener((Bitmap screen) =>
             {
-                if (BitmapUtils.BitmapEquals2(screen, Resources.button, 955, 622, 10))
+                if (BitmapUtils.BitmapEquals2(screen, Resources.button, 621, 622, 10))
                 {
                     switch (Usage)
                     {
                         case EnergyUsage.WAIT:
                             Click(1356, 318);
                             break;
+                        case EnergyUsage.BUY:
+                            Click(710, 660);//Slect Shop
+                            Thread.Sleep(500);
+                            Click(710, 660);//Slect energy
+                            Thread.Sleep(500);
+                            Click(710, 660);//accept
+                            Thread.Sleep(2000);
+                            Click(920, 630);//ok
+                            Thread.Sleep(500);
+                            Click(1700, 144);//ok
+                            Thread.Sleep(500);
+                            break;
                         case EnergyUsage.GIFTBOX:
+                            if (!BitmapUtils.BitmapEquals2(screen, Resources.button, 958, 620, 5))
+                            {
+                                Click(1356, 318);
+                                break;
+                            }
                             Click(1056, 647);//Slect Giftbox
                             Thread.Sleep(500);
                             Click(1148, 391);//Use first
@@ -87,6 +106,7 @@ namespace SummonersWarBot.Bot
                             break;
                     }
                     OnEnergyEmpty?.Invoke(this, screen);
+                    return true;
                 }
                 return false;
             });
@@ -101,6 +121,11 @@ namespace SummonersWarBot.Bot
                     return true;
                 }
                 return false;
+            });
+
+            AddListener((Bitmap screen) =>
+            {
+                return Click(screen, Resources.levelUp, 802, 461, 5);
             });
         }
 

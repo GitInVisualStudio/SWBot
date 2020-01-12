@@ -11,8 +11,11 @@ namespace SummonersWarBot.Bot.Bots
 {
     public class LevelBot : Bot
     {
-        public LevelBot(EnergyUsage usage, int runs = -1) : base(usage, runs)
+        private int mode;
+
+        public LevelBot(EnergyUsage usage, int mode, int runs = -1) : base(usage, runs)
         {
+            this.mode = mode;
         }
 
         public override void Init()
@@ -20,19 +23,28 @@ namespace SummonersWarBot.Bot.Bots
             base.Init();
             AddListener((Bitmap screen) =>
             {
-                return Click(screen, Resources.button, 662, 815, 10)/*Sell rune*/
+                return Click(screen, Resources.button, 662, 800, 10)/*Sell rune*/
                 | Click(screen, Resources.button, 808, 776, 10) /*accept scrolls*/
+                | Click(screen, Resources.button, 650, 605, 10) /*accept selling the run*/
                 | Click(screen, Resources.button, 808, 836, 10) /*accept dropped monster*/
+                | Click(screen, Resources.button, 808, 876, 10) /*essenz*/
                 | Click(screen, Resources.button, 650, 677, 10) /*resend battle info*/
                 ;
             });
+
             AddListener((Bitmap screen) =>
             {
                 if (Click(screen, Resources.victory, 1129, 526, 2))
                 {
                     Thread.Sleep(1500);
-                    //Runs--;
-                    Click(929, 526);
+                    if (mode == 0)
+                    {
+                        TelegramBot.SendMessage("Runs left: " + Runs);
+                        Runs--;
+                    }
+                    if (Runs <= 0)
+                        TelegramBot.SendMessage("Bot finished!");
+                    Click(929, 826);
                     return true;
                 }
                 return false;
@@ -40,9 +52,8 @@ namespace SummonersWarBot.Bot.Bots
 
             AddListener((Bitmap screen) =>
             {
-                if(Click(screen, Resources.replay, 1015, 646, 5))
+                if (Click(screen, Resources.replay, 1015, 646, 5))
                 {
-                    Runs++;
                     return true;
                 }
                 return false;
