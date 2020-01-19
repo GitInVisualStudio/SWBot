@@ -43,7 +43,7 @@ namespace SummonersWarBot
 
             //new Thread to handle the process finding asyn
             new System.Threading.Thread(FindProcess).Start();
-            new System.Threading.Thread(HandleTelegramBot).Start();
+            //new System.Threading.Thread(HandleTelegramBot).Start();
 
             timer = new Timer()
             {
@@ -118,15 +118,61 @@ namespace SummonersWarBot
             if (!running)
                 return;
             //Bitmap screen = GetScreen();
+            //Bitmap lvl = BitmapUtils.GetBitmap(screen, 224, 755, 1000, 35);
+            //Bitmap tokenLvl = BitmapUtils.KeepColor(lvl, Color.FromArgb(244, 236, 220), Color.Black, 70);
+            //e.Graphics.DrawImage(lvl, 0, 0);
+            //for (int i = 33; i < lvl.Width; i++)
+            //{
+            //    if (BitmapUtils.IsColor(lvl.GetPixel(i, lvl.Height / 2), Color.FromArgb(41, 27, 14), 20))
+            //    {
+            //        if (BitmapUtils.BitmapEquals(tokenLvl, Resources.lvl1, i - 27, 8, 4) && !BitmapUtils.BitmapEquals(lvl, Resources.lvl0, i - 35, 5, 5))
+            //        {
+            //            e.Graphics.DrawImage(new Bitmap(Resources.lvl0), i - 35, 5);
+            //            Console.WriteLine(BitmapUtils.GetBitmapEquals(lvl, Resources.lvl0, i - 35, 5));
+            //            return;
+            //        }
+            //    }
+            //}
+
             ////e.Graphics.DrawString("Current slot:" + RuneHelper.GetSlot(screen, 381, 71), new Font("Arial", 12), Brushes.Black, 0, 0);
             ////RuneHelper.GetSubs(screen, 70, 260);
-            //int x = 70;
-            //int y = 260;
-            //List<EnumSub> subs = new List<EnumSub>();
+            //int x = 77;
+            //int y = 270; //268
             //Bitmap tokenSubs = BitmapUtils.GetBitmap(screen, x, y, 170, 200);
             //tokenSubs = BitmapUtils.RemoveColor(tokenSubs, Color.FromArgb(37, 24, 15), Color.Black, 80);
-            //e.Graphics.DrawImage(tokenSubs, 0, 0);
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    Console.WriteLine(((EnumSub)GetSub(tokenSubs, i * 39)).ToString()); //39 offset per sub
+            //}
+            //Console.WriteLine("___");
         }
+
+        private int GetSub(Bitmap screen, int offset)
+        {
+            float max = 0;
+            int index = -1;
+            for (int i = 0; i < subs.Length; i++) {
+                float current = BitmapUtils.GetBitmapEquals(screen, subs[i], 0, offset);
+                if(current > 95 && current > max)
+                {
+                    max = current;
+                    index = i;
+                }
+            }
+            return index;
+        }
+
+        private Bitmap[] subs = new Bitmap[]
+        {
+            BitmapUtils.ScaleBitmap(Resources.SPD, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.ACC, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.ATK, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.DEF, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.HP, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.RES, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.RATE, 1.0f),
+            BitmapUtils.ScaleBitmap(Resources.DMG, 1.0f)
+        };
 
         private void Tick()
         {
@@ -195,7 +241,7 @@ namespace SummonersWarBot
             running = !running;
             if (running)
             {
-                bot = new b::Bots.LevelBot((b::Bot.EnergyUsage)boxEnergy.SelectedItem, boxMode.SelectedIndex, (int)numRuns.Value);
+                bot = new b::Bot((b::Bot.EnergyUsage)boxEnergy.SelectedItem, boxMode.SelectedIndex, (int)numRuns.Value);
             }
             statusBot.Text = running ? "running" : "idle";
         }

@@ -48,62 +48,9 @@ namespace SummonersWarBot
             return Math.Abs(r1 - r2) + Math.Abs(g1 - g2) + Math.Abs(b1 - b2);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="origin"></param>
-        /// <param name="bitmap"></param>
-        /// <param name="posX"></param>
-        /// <param name="posY"></param>
-        /// <param name="toleranz">toleranz in %</param>
-        /// <returns></returns>
-        public static bool BitmapQuals(Bitmap origin, Bitmap bitmap, int posX, int posY, float toleranz = 0)
+        public static bool BitmapEquals(Bitmap origin, Bitmap bitmap, int posX, int posY, float toleranz = 0)
         {
-            BitmapData oSrc = origin.LockBits(new Rectangle(0, 0, origin.Width, origin.Height), ImageLockMode.ReadOnly, origin.PixelFormat);
-            BitmapData bSrc = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
-            int originBytesPerPixel = Bitmap.GetPixelFormatSize(origin.PixelFormat) / 8;
-            int bitmapBytesPerPixel = Bitmap.GetPixelFormatSize(bSrc.PixelFormat) / 8;
-            int byteCount = oSrc.Stride * origin.Height; 
-            int byteCount2 = bSrc.Stride * bitmap.Height;
-            byte[] pixels = new byte[byteCount];
-            byte[] pixels2 = new byte[byteCount2];
-            IntPtr ptrFirstPixel = oSrc.Scan0;
-            IntPtr ptrFirstPixel2 = bSrc.Scan0;
-            Marshal.Copy(ptrFirstPixel, pixels, 0, pixels.Length); 
-            Marshal.Copy(ptrFirstPixel2, pixels2, 0, pixels2.Length);
-            int heightInPixels = bSrc.Height;
-            int widthInPixels = bSrc.Width;
-            int total = 0;
-            int max = 0;
-            for (int y = 0; y < heightInPixels; y++)
-            {
-                int originCurrentLine = (y + posY) * oSrc.Stride;
-                int bitmapCurrentLine = y * bSrc.Stride;
-                for (int x = 0; x < widthInPixels; x++)
-                {
-                    int originCurrentPixel = originCurrentLine + (x + posX) * originBytesPerPixel; 
-                    int bitmapCurrentPixel = bitmapCurrentLine + x * bitmapBytesPerPixel;
-                    if (pixels[originCurrentLine + x + 3] == 0)
-                        continue;
-                    byte r1 = pixels[originCurrentPixel + 2];
-                    byte r2 = pixels[bitmapCurrentPixel + 2];
-                    byte g1 = pixels[originCurrentPixel + 1];
-                    byte g2 = pixels[bitmapCurrentPixel + 1];
-                    byte b1 = pixels[originCurrentPixel + 0];
-                    byte b2 = pixels[bitmapCurrentPixel + 0];
-                    total += GetAbs(r1, g1, b1, r2, g2, b2);
-                    max += 255 * 3;
-                }
-            }
-            origin.UnlockBits(oSrc);
-            bitmap.UnlockBits(bSrc);
-            float equal = ((max - total) / (float)max) * 100;
-            Console.WriteLine(equal);
-            return equal >= (100 - toleranz);
-        }
-
-        public static bool BitmapEquals2(Bitmap origin, Bitmap bitmap, int posX, int posY, float toleranz = 0)
-        {
+            bitmap = new Bitmap(bitmap, bitmap.Width, bitmap.Height);
             int total = 0;
             int max = 0;
             for(int x = 0; x < bitmap.Width; x++)
@@ -124,6 +71,7 @@ namespace SummonersWarBot
         {
             int total = 0;
             int max = 0;
+            bitmap = new Bitmap(bitmap, bitmap.Width, bitmap.Height);
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
@@ -181,9 +129,47 @@ namespace SummonersWarBot
             return img;
         }
 
-        public static Bitmap ScaleBitmap(Bitmap bitmap, float scale)
+        public static Bitmap KeepColor(Bitmap origin, Color color, Color paint = default(Color), byte toleranz = 0)
         {
-            return new Bitmap(bitmap, (int)(bitmap.Width * scale), (int)(bitmap.Height * scale));
+            Bitmap img = new Bitmap(origin);
+            BitmapData bSrc = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, img.PixelFormat); //Lockt die Bits, damit sie gelesen und beschrieben werden können => kein struct deswegen notwendig
+            int bytesPerPixel = Bitmap.GetPixelFormatSize(img.PixelFormat) / 8;
+            int byteCount = bSrc.Stride * img.Height; //Insgesamten Bytes der Bitmap
+            byte[] pixels = new byte[byteCount];
+            IntPtr ptrFirstPixel = bSrc.Scan0;
+            Marshal.Copy(ptrFirstPixel, pixels, 0, pixels.Length); //Kopiert die bytes der Bitmap in einen Array
+            int heightInPixels = bSrc.Height;//Höhe
+            int widthInBytes = bSrc.Width * bytesPerPixel; //Pixel-Breite in bytes für das durchgehen der For-Schleife
+            for (int y = 0; y < heightInPixels; y++)
+            {
+                int currentLine = y * bSrc.Stride;
+                for (int x = 0; x < widthInBytes; x += bytesPerPixel)
+                {
+                    if (IsColor(pixels[currentLine + x + 2], pixels[currentLine + x + 1], pixels[currentLine + x + 0], color.R, color.G, color.B, toleranz))
+                    {
+                        pixels[currentLine + x + 3] = paint.A;
+                        pixels[currentLine + x + 2] = paint.R;
+                        pixels[currentLine + x + 1] = paint.G;
+                        pixels[currentLine + x + 0] = paint.B;
+                        continue;
+                    }
+                    pixels[currentLine + x + 3] = 0;
+                    pixels[currentLine + x + 2] = 0;
+                    pixels[currentLine + x + 1] = 0;
+                    pixels[currentLine + x + 0] = 0;
+                }
+            }
+            Marshal.Copy(pixels, 0, ptrFirstPixel, pixels.Length);
+            img.UnlockBits(bSrc);
+            return img;
+        }
+
+
+        public static Bitmap ScaleBitmap(Bitmap bitmap, float scale, float scaleX = 0)
+        {
+            if (scaleX == 0)
+                scaleX = scale;
+            return new Bitmap(bitmap, (int)(bitmap.Width * scale), (int)(bitmap.Height * scaleX));
         }
     }
 }

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E3E1C9D-D32C-42CE-BB2C-7978D907FDA7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>SummonersWarBot</RootNamespace>
     <AssemblyName>SummonersWarBot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GameOverlay, Version=4.0.7.0, Culture=neutral, processorArchitecture=MSIL">
@@ -62,8 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot\Bot.cs" />
-    <Compile Include="BitmapUtils.cs" />
-    <Compile Include="Bot\Bots\LevelBot.cs" />
+    <Compile Include="Utils\BitmapUtils.cs" />
     <Compile Include="Bot\TelegramBot.cs" />
     <Compile Include="Overlay.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -71,8 +73,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Rune\EnumSub.cs" />
-    <Compile Include="Rune\RuneHelper.cs" />
+    <Compile Include="Utils\Rune\EnumSub.cs" />
+    <Compile Include="Utils\Rune\RuneHelper.cs" />
     <Compile Include="SWBot.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,9 +106,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\victory.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\button.png" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +134,48 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\levelUp.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lvl1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lvl0.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\maxLvl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\victory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SPD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ACC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DEF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DMG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\percent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RATE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RES.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
